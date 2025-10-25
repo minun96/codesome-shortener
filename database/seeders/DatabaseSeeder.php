@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Click;
+use App\Models\Link;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -21,5 +23,8 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        Link::factory(30)->create();
+        Click::factory(40)->create();
     }
 }
