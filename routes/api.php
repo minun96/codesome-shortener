@@ -19,3 +19,7 @@ Route::group(['prefix' => 'links'], function () {
     Route::get('/trashed', [LinkController::class, 'trashed'])->name('links.trashed')->withTrashed(); // index thrashed
 });
 
+Route::group(['prefix' => 'stats'], function () {
+    Route::get('/', [StatsController::class, 'index']);
+    Route::get('/{link}', StatsController::class, 'show');
+});
