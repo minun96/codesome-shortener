@@ -42,4 +42,18 @@ class LinkController extends Controller
         return response()->json($link, 200);
     }
 
+    public function destroy(Link $link) {
+        $link->delete();
+        return response()->noContent();
+    }
+
+    public function restore(Link $link) {
+        $link->restore();
+        return response()->json($link, 200);
+    }
+
+    public function trashed() {
+        return Link::onlyTrashed()->paginate(10);
+    }
+
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LinkController;
+use App\Http\Controllers\StatsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -13,4 +14,8 @@ Route::group(['prefix' => 'links'], function () {
     Route::get('/{link}', [LinkController::class, 'show'])->name('links.show'); // {link}
     Route::post('/', [LinkController::class, 'store'])->name('links.store'); // store
     Route::patch('/{link}', [LinkController::class, 'update'])->name('links.update'); // update
+    Route::delete('/{link}', [LinkController::class, 'destroy'])->name('links.destroy'); // destroy 
+    Route::put('/{link}/restore', [LinkController::class, 'restore'])->name('links.restore')->withTrashed(); // restore
+    Route::get('/trashed', [LinkController::class, 'trashed'])->name('links.trashed')->withTrashed(); // index thrashed
 });
+
