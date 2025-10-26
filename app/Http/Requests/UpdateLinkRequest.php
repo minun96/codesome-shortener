@@ -23,7 +23,7 @@ class UpdateLinkRequest extends FormRequest
     {
         return [
             'long_url' => 'sometimes|url',
-            'short_code' => 'sometimes|required|string|alpha_num|size:7|unique:links,short_code' . $this->link->id, // il terzo argomento di unique esclude l'id,
+            'short_code' => 'sometimes|required|string|alpha_num|size:7|unique:links,short_code,' . $this->link->id, // il terzo argomento di unique esclude l'id,
         ];
     }
 }
