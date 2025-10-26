@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Click extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['link_id', 'ip_address', 'country', 'city'];
     
     public function link(): BelongsTo
     {
