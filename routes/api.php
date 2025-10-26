@@ -21,5 +21,5 @@ Route::group(['prefix' => 'links'], function () {
 
 Route::group(['prefix' => 'stats'], function () {
     Route::get('/', [StatsController::class, 'index']);
-    Route::get('/{link}', StatsController::class, 'show');
+    Route::get('/{link}', [StatsController::class, 'show']);
 });
