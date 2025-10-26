@@ -15,7 +15,7 @@ Route::group(['prefix' => 'links'], function () {
     Route::post('/', [LinkController::class, 'store'])->name('links.store'); // store
     Route::patch('/{link}', [LinkController::class, 'update'])->name('links.update'); // update
     Route::delete('/{link}', [LinkController::class, 'destroy'])->name('links.destroy'); // destroy 
-    Route::put('/{link}/restore', [LinkController::class, 'restore'])->name('links.restore')->withTrashed(); // restore
+    Route::put('/{link}/restore', [LinkController::class, 'restore'])->name('links.restore'); // restore
     Route::get('/trashed', [LinkController::class, 'trashed'])->name('links.trashed')->withTrashed(); // index thrashed
 });
 
