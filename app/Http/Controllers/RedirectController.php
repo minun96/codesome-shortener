@@ -13,11 +13,10 @@ class RedirectController extends Controller
     public function redirect(Request $request, $short_code) {
         $link = Link::where('short_code', $short_code)->firstOrFail();
         $ip = $request->ip();
-
-        $link->registerClick($ip);
+        $click = $link->registerClick($ip);
 
         $response = redirect($link->long_url);
-        ProcessGeolocation::dispatch();
+        ProcessGeolocation::dispatch($click);
 
         return $response;
     }
