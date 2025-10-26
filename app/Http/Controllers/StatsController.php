@@ -9,39 +9,22 @@ use Illuminate\Http\Request;
 class StatsController extends Controller
 {
     public function index () {
-        $totalLinks = Link::count();
-        $totalClicks = Click::count();
-        $lastClick = Click::latest()->first();
-        $topLinks = Link::withCount('clicks')
-            ->orderBy('clicks_count', 'desc') // ho già definito la relazione e posso accedere grazie a withCount()
-            ->take(5)
-            ->get();
-
         return response()->json([
-            'total_links' => $totalLinks,
-            'total_clicks' => $totalClicks,
-            'last_click' => $lastClick,
-            'top_links' => $topLinks,
+            'total_links' => Link::count(),
+            'total_clicks' => Click::count(),
+            'last_click' => Click::latestClick(),
+            'top_links' => Link::topLinks(),
         ], 200);
     }
 
     public function show(Link $link)
     {
-        $clicksCount = $link->clicks()->count();
-        $lastClick = $link->clicks()->latest()->first();
-        $clicksToday = $link->clicks()
-            ->where('created_at', '>=', now()->subDay())->count();
-        $clicksThisWeek = $link->clicks()
-            ->where('created_at', '>=', now()->subWeek())->count();
-        $clicksThisMonth = $link->clicks()
-            ->where('created_at', '>=', now()->subMonth())->count();
-
         return response()->json([
-            'clicks_count' => $clicksCount,
-            'last_click' => $lastClick,
-            'clicks_today' => $clicksToday,
-            'clicks_this_week' => $clicksThisWeek,
-            'clicks_this_month' => $clicksThisMonth,
+            'clicks_count' => $link->clicksCount(),
+            'last_click' => $link->latestClick(),
+            'clicks_today' => $link->clicksSince(now()->startOfDay()),
+            'clicks_this_week' => $link->clicksSince(now()->startOfWeek()),
+            'clicks_this_month' => $link->clicksSince(now()->startOfMonth()),
         ], 200);
     }
 }

@@ -16,4 +16,10 @@ class Click extends Model
     {
         return $this->belongsTo(Link::class);
     }
+
+    public static function latestClick() 
+    {
+        return self::latest()->first();
+    }
+
 }

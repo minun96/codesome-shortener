@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\GeolocationProvider;
 use App\Models\Link;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -9,31 +10,12 @@ use Illuminate\Support\Facades\Log;
 
 class RedirectController extends Controller
 {
-    public function redirect(Request $request, $short_code) {
+    public function redirect(Request $request, $short_code, GeolocationProvider $geolocationProvider) {
         $link = Link::where('short_code', $short_code)->firstOrFail();
         $ip = $request->ip();
+        $geoloc = $geolocationProvider->getGeolocation($ip);
 
-        // considero la possibilità che il servizio non risponda
-        // RICORDA DI CREARE UN SERVICE
-        try {
-            $response = Http::timeout(3)->get("http://ip-api.com/json/{$ip}");
-            if ($response->successful()) {
-                $data = $response->json();
-                $geolocalization['country'] = $data['country'] ?? null;
-                $geolocalization['city'] = $data['city'] ?? null;
-            }
-        } catch (\Exception $e) {
-            Log::error("Ip API request failed: ", [
-                'ip' => $ip,
-                'error' => $e->getMessage(),
-            ]);
-        }
-
-        $link->clicks()->create([
-            'ip_address' => $ip,
-            'country' => $geolocalization['country'] ?? null,
-            'city' => $geolocalization['city'] ?? null,
-        ]);
+        $link->registerClick($ip, $geoloc);
 
         return redirect($link->long_url);
     }

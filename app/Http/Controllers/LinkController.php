@@ -6,7 +6,6 @@ use App\Http\Requests\StoreShortCodeRequest;
 use App\Http\Requests\UpdateLinkRequest;
 use App\Models\Link;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class LinkController extends Controller
 {
@@ -19,18 +18,8 @@ class LinkController extends Controller
     }
 
     public function store(StoreShortCodeRequest $request) {
-        $data = $request->validated();
-        $shortCode = $data['short_code'] ?? null;
-
-        if (empty($shortCode)) {
-            do {$shortCode = Str::random(7);} 
-            while (Link::where('short_code', $shortCode)->exists()); // così se è vuoto ripete il ciclo
-        }
-
-        $link = Link::create([
-            'long_url' => $data['long_url'],
-            'short_code' => $shortCode,
-        ]);
+        $data = $request->validated();        
+        $link = Link::createLink($data);
 
         return response()->json($link, 201);
     }

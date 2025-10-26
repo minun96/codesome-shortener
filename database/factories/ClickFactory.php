@@ -18,14 +18,8 @@ class ClickFactory extends Factory
      */
     public function definition(): array
     {   
-        // $ip_address = $this->faker->ipv4();
-        // $geoloc = Http::get("http://ip-api.com/json/{$ip_address}")->json();
-
         return [
             'link_id' => Link::inRandomOrder()->first()->id,
-            /* 'ip_address' => $ip_address,
-            'country' => $geoloc['country'] ?? null,
-            'city' => $geoloc['city'] ?? null, */
             'ip_address' => $this->faker->ipv4(),
             'country' => $this->faker->country(),
             'city' => $this->faker->city(),
