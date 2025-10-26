@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Contracts\GeolocationProvider;
+use App\Jobs\ProcessGeolocation;
 use App\Models\Link;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -10,13 +10,15 @@ use Illuminate\Support\Facades\Log;
 
 class RedirectController extends Controller
 {
-    public function redirect(Request $request, $short_code, GeolocationProvider $geolocationProvider) {
+    public function redirect(Request $request, $short_code) {
         $link = Link::where('short_code', $short_code)->firstOrFail();
         $ip = $request->ip();
-        $geoloc = $geolocationProvider->getGeolocation($ip);
 
-        $link->registerClick($ip, $geoloc);
+        $link->registerClick($ip);
 
-        return redirect($link->long_url);
+        $response = redirect($link->long_url);
+        ProcessGeolocation::dispatch();
+
+        return $response;
     }
 }

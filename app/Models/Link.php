@@ -46,12 +46,10 @@ class Link extends Model
         ]);
     }
 
-    public function registerClick(string $ip, array $geoloc): void
+    public function registerClick(string $ip): Click
     {
-        $this->clicks()->create([
+        return $this->clicks()->create([
             'ip_address' => $ip,
-            'country' => $geoloc['country'] ?? null,
-            'city' => $geoloc['city'] ?? null,
         ]);
     }
 
