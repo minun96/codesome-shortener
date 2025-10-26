@@ -9,4 +9,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/{short_code}', [RedirectController::class, 'redirect']);
+Route::get('/{short_code}', [RedirectController::class, 'redirect'])->name('redirect');
