@@ -1,4 +1,5 @@
-# Codesome URL Shortener <img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" height="30">
+# Codesome URL Shortener 
+<img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" height="50">
 
 A RESTful API built with Laravel that provides a robust backend for a URL shortening service. It allows for the creation and management of short links, tracks detailed click statistics, and provides geolocation data for each click through an asynchronous job.
 
