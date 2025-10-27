@@ -4,7 +4,7 @@ A RESTful API built with Laravel that provides a robust backend for a URL shorte
 
 ---
 
-## ✨ Features
+## Features
 
 -   **Full URL Management:** Complete CRUD functionality for creating, reading, updating, and deleting links.
 -   **Custom & Random Short Codes:** Supports both user-defined short codes and automatic generation of unique random codes.
@@ -15,7 +15,7 @@ A RESTful API built with Laravel that provides a robust backend for a URL shorte
 
 ---
 
-## 🏛️ Architectural Choices
+## Architectural Choices
 
 To ensure the application is clean, scalable, and maintainable, several key design patterns were implemented:
 
@@ -27,7 +27,7 @@ To ensure the application is clean, scalable, and maintainable, several key desi
 
 ---
 
-## 🛠️ Tech Stack & Requirements
+## Tech Stack & Requirements
 
 -   PHP 8.4+
 -   MySQL or MariaDB
@@ -36,7 +36,7 @@ To ensure the application is clean, scalable, and maintainable, several key desi
 
 ---
 
-## 🚀 Installation Guide
+## Installation Guide
 
 Follow these steps to set up the project locally.
 
@@ -93,7 +93,7 @@ Follow these steps to set up the project locally.
 
 ---
 
-## ▶️ Running the Application
+## Running the Application
 
 To run the application, you need to start two processes in separate terminals.
 
@@ -110,7 +110,7 @@ To run the application, you need to start two processes in separate terminals.
 
 ---
 
-## ✅ Running Tests
+## Running Tests
 
 To run the full suite of automated tests, use the following command:
 ```bash
@@ -153,7 +153,7 @@ This route is in `web.php` and is not prefixed with `/api`.
 
 ---
 
-## 🗓️ Scheduled Tasks
+## Scheduled Tasks
 
 -   **Weekly Digest:** A weekly report with global statistics is sent every Monday at 8:00 AM.
 

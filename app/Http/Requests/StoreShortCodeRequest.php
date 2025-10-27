@@ -23,7 +23,7 @@ class StoreShortCodeRequest extends FormRequest
     {
         return [
             'long_url' => 'required|url',
-            'short_code' => 'nullable|string|alpha_num|size:7|unique:links,short_code,', // dico che deve essere unico altrimenti potrebbero esserci due link uguali. Se non viene inserito lo calcoliamo noi randomicamente
+            'short_code' => 'nullable|string|alpha_num|min:6|max:12|unique:links,short_code,', // dico che deve essere unico altrimenti potrebbero esserci due link uguali. Se non viene inserito lo calcoliamo noi randomicamente
         ];
     }
 }

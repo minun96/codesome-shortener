@@ -33,17 +33,24 @@ class Link extends Model
     public static function createLink(array $data): self
     {
         if (isset($data['short_code'])) {
-            $shortCode = $data['short_code'];
-        } else {
-            do {
-                $shortCode = Str::random(7);
-            } while (self::where('short_code', $shortCode)->exists());
-        }
+            return self::create([
+                'long_url'   => $data['long_url'],
+                'short_code' => $data['short_code'],
+            ]);
+        } 
 
-        return self::create([
+        $link = self::create([
             'long_url'   => $data['long_url'],
-            'short_code' => $shortCode,
+            'short_code' => uniqid(), // solo per placeholder
         ]);
+        // lo creo con l'id e aggiungo la parte che manca
+        // non devo fare query a db ma garantisco unicità
+        $uniquePart = gmp_strval(gmp_init($link->id, 10), 62); //parto dall'id in base 10 e lo converto in base 62
+        $offset = 8 - strlen($uniquePart);
+        $randomPart = ($offset > 0) ? Str::random($offset) : '';
+        $link->short_code = $randomPart . $uniquePart;
+        $link->save(); 
+        return $link;
     }
 
     public function registerClick(string $ip): Click
