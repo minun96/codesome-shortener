@@ -213,7 +213,7 @@ curl -X POST http://127.0.0.1:8000/api/links \
 
 ### Updating a Link's Short Code
 
-The provided `short_code` must be unique and respect the validation rules (`min:6`, `max:12`).
+Use this endpoint to change the `short_code` of an existing link. Keep in mind the validation rules: the new field must be unique and respect the standard length (`min:6`, `max:12`).
 
 **Request:**
 ```bash
