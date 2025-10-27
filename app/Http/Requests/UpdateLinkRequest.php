@@ -22,7 +22,6 @@ class UpdateLinkRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'long_url' => 'sometimes|url',
             'short_code' => 'sometimes|required|string|alpha_num|min:6|max:12|unique:links,short_code,' . $this->link->id, // il terzo argomento di unique esclude l'id,
         ];
     }
