@@ -1,5 +1,6 @@
-# Codesome URL Shortener 
 <img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" height="50">
+
+# Codesome URL Shortener 
 
 A RESTful API built with Laravel that provides a robust backend for a URL shortening service. It allows for the creation and management of short links, tracks detailed click statistics, and provides geolocation data for each click through an asynchronous job.
 
@@ -24,7 +25,6 @@ To ensure the application is clean, scalable, and maintainable, several key desi
 -   **API Resources:** API responses are consistently formatted using Laravel's dedicated Resource classes. This provides a transformation layer that ensures a stable and controlled data structure.
 -   **Service Layer:** Complex external interactions, like geolocation lookups, are delegated to a dedicated service for reusability and easy testing.
 -   **Asynchronous Jobs:** To ensure a fast user experience, the slow process of fetching geolocation data is handled by a background job, allowing the user to be redirected instantly.
--   **API Resources:** (Se li avessi usati, lo menzioneresti qui) API responses are consistently formatted using Laravel's Resource classes to control the data structure.
 
 ---
 
@@ -117,7 +117,7 @@ To run the full suite of automated tests, use the following command:
 ```bash
 php artisan test
 ```
-## 📑 API Endpoints
+## API Endpoints
 
 All API endpoints are prefixed with `/api`.
 
@@ -128,7 +128,7 @@ All API endpoints are prefixed with `/api`.
 | `GET` | `/links` | Returns a paginated list of all links. | |
 | `POST`| `/links` | Creates a new short link. `short_code` is optional. | `{"long_url": "https://www.google.com", "short_code": "my-link"}` |
 | `GET` | `/links/{link}` | Shows the details of a specific link. | |
-| `PATCH`| `/links/{link}` | Updates a link's `long_url` or `short_code`. | `{"short_code": "new-code"}` |
+| `PATCH`| `/links/{link}` | Updates a link's `short_code`. | `{"short_code": "new-code"}` |
 | `DELETE`| `/links/{link}` | Soft deletes a link (moves it to the trash). | |
 | `GET` | `/links/trashed`| Returns a paginated list of soft-deleted links. | |
 | `PUT` | `/links/{link}/restore`| Restores a soft-deleted link. | |
@@ -151,6 +151,91 @@ This route is in `web.php` and is not prefixed with `/api`.
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
 | `GET` | `/{short_code}` | Redirects the user to the original long URL and records the click. |
+
+---
+
+## API Usage Examples
+
+Here are some examples of how to interact with the API using `curl`.
+
+### Creating a New Link with an Auto-Generated Short Code
+
+To let the server generate a unique short code for you, simply omit the `short_code` field from the request body.
+
+**Request:**
+```bash
+curl -X POST http://127.0.0.1:8000/api/links \
+  -H "Content-Type: application/json" \
+  -d '{
+        "long_url": "https://www.google.com"
+      }'
+```
+
+**Successful Response (201 Created)**
+```JSON
+{
+    "data": {
+        "id": 1,
+        "original_url": "https://www.google.com",
+        "short_code": "aB7xYz1",
+        "full_short_url": "http://127.0.0.1:8000/aB7xYz1",
+        "created_at": "2025-10-27T10:00:00.000000Z"
+    }
+}
+```
+
+### Creating a New Link with a Custom Short Code
+
+The provided `short_code` must be unique and respect the validation rules (`min:6`, `max:12`).
+
+**Request:**
+```bash
+curl -X POST http://127.0.0.1:8000/api/links \
+  -H "Content-Type: application/json" \
+  -d '{
+        "long_url": "https://www.laravel.com",
+        "short_code": "laravel"
+      }'
+```
+
+**Successful Response (201 Created)**
+```JSON
+{
+    "data": {
+        "id": 2,
+        "original_url": "https://www.laravel.com",
+        "short_code": "laravel",
+        "full_short_url": "http://127.0.0.1:8000/laravel",
+        "created_at": "2025-10-27T10:00:00.000000Z"
+    }
+}
+```
+
+### Updating a Link's Short Code
+
+The provided `short_code` must be unique and respect the validation rules (`min:6`, `max:12`).
+
+**Request:**
+```bash
+curl -X PATCH http://127.0.0.1:8000/api/links/1 \
+  -H "Content-Type: application/json" \
+  -d '{
+        "short_code": "googlesearch"
+      }'
+```
+
+**Successful Response (200 OK)**
+```JSON
+{
+    "data": {
+        "id": 1,
+        "original_url": "https://www.google.com",
+        "short_code": "googlesearch",
+        "full_short_url": "http://127.0.0.1:8000/googlesearch",
+        "created_at": "2025-10-27T10:00:00.000000Z"
+    }
+}
+```
 
 ---
 
